@@ -11,8 +11,8 @@ class ReminderService {
         return response.data;
     }
 
-    async addReminder(title: string){
-        const response = await this.http.post<Reminder>('/todos',{title });
+    async addReminder(title: string, completed:boolean){
+        const response = await this.http.post<Reminder>('/todos',{title, completed });
         return response.data;
     }
 
@@ -22,4 +22,5 @@ class ReminderService {
     }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new ReminderService();
