@@ -1,58 +1,56 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import ReminderList from "./components/ReminderList";
-import Reminder from "./models/reminder";
-import reminderService from "./services/reminder";
-import NewReminder from "./components/NewReminder";
+import TodoList from "./components/TodoList";
+import Todo from "./models/todo";
+import TodoService from "./services/todo";
+import NewTodo from "./components/NewTodo";
 
 function App() {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
-    loadReminders();
+    loadTodos();
     document.title = "TODO app";
   }, []);
 
-  const loadReminders = async () => {
-    const reminders = await reminderService.getReminder();
-    setReminders(reminders);
+  const loadTodos = async () => {
+    const todos = await TodoService.getTodo();
+    setTodos(todos);
   };
 
-  const removeReminder = (id: number) => {
-    setReminders(reminders.filter((reminder) => reminder.id !== id));
+  const removeTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const addReminder = async (title: string, completed: boolean) => {
-    const newReminder = await reminderService.addReminder(title, completed);
-    setReminders([newReminder, ...reminders]);
+  const addTodo = async (title: string, completed: boolean) => {
+    const newTodo = await TodoService.addTodo(title, completed);
+    setTodos([newTodo, ...todos]);
   };
 
-  const updateReminder = (id: number, completed: boolean) => {
-    const reminderList = [...reminders];
-    const index = reminderList.findIndex((r) => r.id === id);
-    reminderList[index].completed = completed;
+  const updateTodo = (id: number, completed: boolean) => {
+    const todoList = [...todos];
+    const index = todoList.findIndex((r) => r.id === id);
+    todoList[index].completed = completed;
     setCompleted(completed);
-    setReminders(reminderList);
+    setTodos(todoList);
   };
 
   return (
     <div className="App">
-      <h1 className="text-center">REMINDERS</h1>
-      <div className="row g-3 mb-4">
-        <div className="card col-sm-4 mx-2">
-          <NewReminder onAddReminder={addReminder} completed={completed} />
-        </div>
-        <div className="row g-3">
+      <section className="app-section">
+        <h1 className="text-center">TODO LIST</h1>
+        <NewTodo onAddTodo={addTodo} completed={completed} />
+        <div className="row">
           <div className="col-sm-6">
-            <ReminderList
-              items={reminders}
-              onRemoveReminder={removeReminder}
-              onUpdateReminder={updateReminder}
+            <TodoList
+              items={todos}
+              onRemoveTodo={removeTodo}
+              onUpdateTodo={updateTodo}
             />
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
