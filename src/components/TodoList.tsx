@@ -30,10 +30,10 @@ function TodoList({ items, onRemoveTodo, onUpdateTodo }: TodoListProps) {
               {item.title}
             </label>
             <button
-              className="btn btn-outline-danger mx-2 rounded-pill float-end"
+              className="btn text-secondary float-end"
               onClick={() => onRemoveTodo(item.id)}
             >
-              Delete
+              <i className="bi bi-trash-fill"></i>
             </button>
           </li>
         ))}
