@@ -1,25 +1,21 @@
 import React from "react";
-import Reminder from "../models/reminder";
+import Todo from "../models/todo";
 
-interface ReminderListProps {
-  items: Reminder[];
-  onRemoveReminder: (id: number) => void;
-  onUpdateReminder: (id: number, completed: boolean) => void;
+interface TodoListProps {
+  items: Todo[];
+  onRemoveTodo: (id: number) => void;
+  onUpdateTodo: (id: number, completed: boolean) => void;
 }
 
-function getItemClass(item: Reminder) {
+function getItemClass(item: Todo) {
   let classes = "form-check-label ";
   return (classes += item.completed ? "text-decoration-line-through" : "");
 }
 
-function ReminderList({
-  items,
-  onRemoveReminder,
-  onUpdateReminder,
-}: ReminderListProps) {
+function TodoList({ items, onRemoveTodo, onUpdateTodo }: TodoListProps) {
   return (
     <div className="card">
-      <div className="card-header bg-primary">Reminders</div>
+      <div className="card-header bg-primary">Todo List</div>
       <ul className="list-group">
         {items.map((item) => (
           <li className="list-group-item" key={item.id}>
@@ -28,14 +24,14 @@ function ReminderList({
               className="form-check-input me-1"
               id="completed"
               checked={item.completed}
-              onChange={(e) => onUpdateReminder(item.id, e.target.checked)}
+              onChange={(e) => onUpdateTodo(item.id, e.target.checked)}
             />
             <label htmlFor="completed" className={getItemClass(item)}>
               {item.title}
             </label>
             <button
               className="btn btn-outline-danger mx-2 rounded-pill float-end"
-              onClick={() => onRemoveReminder(item.id)}
+              onClick={() => onRemoveTodo(item.id)}
             >
               Delete
             </button>
@@ -46,4 +42,4 @@ function ReminderList({
   );
 }
 
-export default ReminderList;
+export default TodoList;
